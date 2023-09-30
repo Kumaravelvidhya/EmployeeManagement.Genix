@@ -12,8 +12,6 @@ namespace DataAccessLayer
     {
         public readonly string connectionString;
 
-
-
         public EmployeeRepository()
         {
             connectionString = @"Data source=ANIYAAN-1006;Initial catalog=EmployeeManagement;User Id=Anaiyaan;Password=Anaiyaan@123";
@@ -30,17 +28,14 @@ namespace DataAccessLayer
                 connection.Close();
 
                 return constrain;
-
-
             }
-
-            catch (SqlException er)
+            catch (SqlException e)
             {
                 throw;
             }
-            catch (Exception r)
+            catch (Exception ex)
             {
-                throw r;
+                throw ex;
             }
         }
 
@@ -48,24 +43,23 @@ namespace DataAccessLayer
         {
             try
             {
-                SqlConnection con = new SqlConnection(connectionString);
                 var connection = new SqlConnection(connectionString);
-                con.Open();
+                connection.Open();
                 var Employee = connection.QueryFirst<EmployeeModel>($" exec Getemployeesid {Id} ");
-                con.Close();
+                connection.Close();
                 return Employee;
             }
 
-            catch (SqlException er)
+            catch (SqlException e)
             {
                 throw;
             }
-            catch (Exception r)
+            catch (Exception ex)
             {
-                throw r;
+                throw ex;
             }
         }
-        public void InsertEmployeeData(EmployeeModel emp)
+        public void InsertEmployeeData(EmployeeModel details)
         {
 
             try
@@ -73,31 +67,10 @@ namespace DataAccessLayer
                 SqlConnection con = new SqlConnection(connectionString);
 
                 con.Open();
-                con.Execute($" exec CreateEmployeeDetails '{emp.Name}', '{emp.DateOfBirth}','{emp.Experience}',{emp.Phonenumber},'{emp.EmailAddress}'");
+                con.Execute($" exec CreateEmployeeDetails '{details.Name}', '{details.DateOfBirth}','{details.Experience}','{details.Phonenumber}','{details.EmailAddress}'");
 
                 con.Close();
 
-            }
-            catch (SqlException ex)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-        public void UpdateEmployeeData(EmployeeModel emp)
-        {
-            try
-            {
-
-                SqlConnection con = new SqlConnection(connectionString);
-
-                con.Open();
-                con.Execute($" exec UpdateEmployeeDetails '{emp.Id}','{emp.Name}','{emp.DateOfBirth}','{emp.Experience}','{emp.Phonenumber}','{emp.EmailAddress}'");
-                con.Close();
             }
             catch (SqlException e)
             {
@@ -108,21 +81,36 @@ namespace DataAccessLayer
                 throw ex;
             }
 
+        }
+        public void UpdateEmployeeData(EmployeeModel details)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(connectionString);
+
+                con.Open();
+                con.Execute($" exec UpdateEmployeeDetails '{details.Id}','{details.Name}','{details.DateOfBirth}','{details.Experience}','{details.Phonenumber}','{details.EmailAddress}'");
+                con.Close();
+            }
+            catch (SqlException e)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void DeleteEmployeeData(int Id)
         {
             try
             {
-
-
                 SqlConnection con = new SqlConnection(connectionString);
 
                 con.Open();
                 con.Execute($"  exec DeleteEmployeeDetails { Id}");
-
                 con.Close();
-
             }
             catch (SqlException e)
             {
@@ -132,9 +120,6 @@ namespace DataAccessLayer
             {
                 throw ex;
             }
-
         }
-
-
     }
 }

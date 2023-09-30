@@ -31,18 +31,16 @@ namespace Employee_Management.Controllers
         // GET: EmployeeManagementController/Details/5
         public ActionResult Details(int Id)
         {
-            var Models = obj.GetEmployeeData(Id);
-            return View("Details", Models);
+            var result = obj.GetEmployeeData(Id);
+            return View("Details", result);
         }
-
        
         public ActionResult Create()
         {
-            var model = new EmployeeModel();
-            return View("Create", model);
+            var result = new EmployeeModel();
+            return View("Create", result);
            
         }
-
         
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -52,7 +50,6 @@ namespace Employee_Management.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     obj.InsertEmployeeData(data);
                     return RedirectToAction(nameof(List));
                 }
@@ -123,7 +120,6 @@ namespace Employee_Management.Controllers
             {
                 obj.DeleteEmployeeData(Id);
                 return RedirectToAction(nameof(List));
-
             }
             catch
             {
